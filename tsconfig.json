@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "moduleResolution": "node",
+        
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": false,
+        "removeComments": false,
+        "sourceMap": true
+    },
+    "exclude": [
+        "node_modules",
+        "typings/index.d.ts",
+        "app/app.d.ts"
+    ]
+}
