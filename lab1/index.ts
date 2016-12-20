@@ -1,11 +1,13 @@
-class RangekuttaMethod {
+export class RangekuttaMethod {
+
     X: number[];
     Ye: number[];
     YRK3: number[];
     YRK4: number[]; Y: number[];
 
     x0: number;
-    y0: number; xn: number;
+    y0: number; 
+    xn: number;
     eps: number = 10E-7;
     N: number;
 
@@ -22,8 +24,6 @@ class RangekuttaMethod {
             this.X[i] = x0 + h * i;
             this.Y[i] = this.func(this.X[i]);
         }
-
-
         this.Calculate();
     }
 
@@ -32,8 +32,9 @@ class RangekuttaMethod {
             this.Ye[i + 1] = RangekuttaMethod.Eylera(this.X[i], this.X[i + 1], this.Ye[i], this.eps, this.fx);
             this.YRK3[i + 1] = RangekuttaMethod.RK3(this.X[i], this.X[i + 1], this.YRK3[i], this.eps, this.fx);
             this.YRK4[i + 1] = RangekuttaMethod.RK4(this.X[i], this.X[i + 1], this.YRK4[i], this.eps, this.fx);
-
         }
+        console.log(this.Ye);
+        
     }
 
     public static Eylera(x0: number, x1: number, y0: number, eps: number, fx: Function) {
@@ -77,8 +78,7 @@ class RangekuttaMethod {
 
     public static RK4(x0, x1, y0, eps, fx: Function) {
         let ht, xj, yj, ym, ymdx, err,
-            m, j,
-            k1, k2, k3, k4;
+            m, j, k1, k2, k3, k4;
 
         m = <number>(x1 - x0) + 1; ym = Number.MAX_VALUE; ymdx = ym;
         do {
@@ -96,12 +96,10 @@ class RangekuttaMethod {
             ym = yj; m *= 10;
         } while (err > eps);
         x1 = ym;
-
         return ym;
     }
 
     public Output() {
-
         for (let i = 0; i < this.N; i++) {
             console.log(`x = ${this.X[i]}    y = ${this.Y[i]}    yEyl = ${this.Ye[i]}    yRK4 = ${this.YRK4[i]}`);
         }
@@ -115,9 +113,7 @@ class RangekuttaMethod {
     }
 }
 
-function main(): void {
+(() => {
     let RK: RangekuttaMethod = new RangekuttaMethod(0, 2, 0, x => Math.pow(Math.E, -(x * x)) * (x * x / 2), (x, y) => x * Math.pow(Math.E, -(x * x)) - 2 * x * y);
     RK.Output();
-}
-
-main();
+})();

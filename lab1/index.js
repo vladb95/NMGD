@@ -18,15 +18,13 @@ var RangekuttaMethod = (function () {
     }
     RangekuttaMethod.prototype.Calculate = function () {
         for (var i = 0; i < this.N - 1; i++) {
-            this.Ye[i + 1] = RangekuttaMethod.Eylera(this.X[i], this.X[i + 1], this.Ye[i], this.eps, this.fx);
-            this.YRK3[i + 1] = RangekuttaMethod.RK3(this.X[i], this.X[i + 1], this.YRK3[i], this.eps, this.fx);
-            this.YRK4[i + 1] = RangekuttaMethod.RK4(this.X[i], this.X[i + 1], this.YRK4[i], this.eps, this.fx);
+            this.Ye[i + 1] = this.Eylera(this.X[i], this.X[i + 1], this.Ye[i], this.eps, this.fx);
+            this.YRK3[i + 1] = this.RK3(this.X[i], this.X[i + 1], this.YRK3[i], this.eps, this.fx);
+            this.YRK4[i + 1] = this.RK4(this.X[i], this.X[i + 1], this.YRK4[i], this.eps, this.fx);
         }
+        console.log(this.Ye);
     };
-    /// <summary>
-    /// Рунге-Кутта 1-го порядка
-    /// </summary>
-    RangekuttaMethod.Eylera = function (x0, x1, y0, eps, fx) {
+    RangekuttaMethod.prototype.Eylera = function (x0, x1, y0, eps, fx) {
         var hx, xj, yj, ym, err, j, m;
         m = (x1 - x0) + 1;
         ym = Number.MAX_VALUE;
@@ -44,10 +42,7 @@ var RangekuttaMethod = (function () {
         } while (err > eps);
         return ym;
     };
-    /// <summary>
-    /// Рунге-Кутта 3-го порядка
-    /// </summary>
-    RangekuttaMethod.RK3 = function (x0, x1, y0, eps, fx) {
+    RangekuttaMethod.prototype.RK3 = function (x0, x1, y0, eps, fx) {
         var ht, xj, yj, ym, ymdx, err, m, j, k1, k2, k3;
         m = (x1 - x0) + 1;
         ym = Number.MAX_VALUE;
@@ -70,10 +65,7 @@ var RangekuttaMethod = (function () {
         x1 = ym;
         return ym;
     };
-    /// <summary>
-    /// Рунге-Кутта 4-го порядка
-    /// </summary>
-    RangekuttaMethod.RK4 = function (x0, x1, y0, eps, fx) {
+    RangekuttaMethod.prototype.RK4 = function (x0, x1, y0, eps, fx) {
         var ht, xj, yj, ym, ymdx, err, m, j, k1, k2, k3, k4;
         m = (x1 - x0) + 1;
         ym = Number.MAX_VALUE;
@@ -108,9 +100,8 @@ var RangekuttaMethod = (function () {
     };
     return RangekuttaMethod;
 }());
-function main() {
+(function main() {
     var RK = new RangekuttaMethod(0, 2, 0, function (x) { return Math.pow(Math.E, -(x * x)) * (x * x / 2); }, function (x, y) { return x * Math.pow(Math.E, -(x * x)) - 2 * x * y; });
-    RK.Output();
-}
-main();
+    //RK.Output();
+})();
 //# sourceMappingURL=index.js.map
