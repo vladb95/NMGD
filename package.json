@@ -1,0 +1,25 @@
+{
+  "name": "labs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "lab1": "node lab1/index.js",
+    "lab2": "node lab2/index.js",
+    "lab3": "node lab3/index.js",
+    "lab4": "node lab4/index.js",
+    "lab5": "node lab5/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vladb95/NMGD.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vladb95/NMGD/issues"
+  },
+  "homepage": "https://github.com/vladb95/NMGD#readme"
+}
