@@ -14,6 +14,10 @@ var RangekuttaMethod = (function () {
         this.YRK3 = [];
         this.YRK4 = [];
         this.Y = [];
+        this.Y[0] = y0;
+        this.YRK3[0] = y0;
+        this.YRK4[0] = y0;
+        this.Ye[0] = y0;
         for (var i = 0; i < this.N; i++) {
             this.X[i] = x0 + h * i;
             this.Y[i] = this.func(this.X[i]);
@@ -29,7 +33,7 @@ var RangekuttaMethod = (function () {
     };
     RangekuttaMethod.Eylera = function (x0, x1, y0, eps, fx) {
         var hx, xj, yj, ym, err, j, m;
-        m = (x1 - x0) + 1;
+        m = (x1 - x0) + 1.0;
         ym = Number.MAX_VALUE;
         do {
             hx = (x1 - x0) / m;
@@ -47,7 +51,7 @@ var RangekuttaMethod = (function () {
     };
     RangekuttaMethod.RK3 = function (x0, x1, y0, eps, fx) {
         var ht, xj, yj, ym, ymdx, err, m, j, k1, k2, k3;
-        m = (x1 - x0) + 1;
+        m = (x1 - x0) + 1.0;
         ym = Number.MAX_VALUE;
         ymdx = ym;
         do {
@@ -57,8 +61,8 @@ var RangekuttaMethod = (function () {
             for (j = 0; j < m; j++) {
                 k1 = fx(xj, yj);
                 k2 = fx(xj + 0.5 * ht, yj + 0.5 * k1);
-                k3 = fx(xj + ht, yj + 2 * k2 - k1);
-                yj = yj + ht * (k1 + 4 * k2 + k3) / 6;
+                k3 = fx(xj + ht, yj + 2.0 * k2 - k1);
+                yj = yj + ht * (k1 + 4.0 * k2 + k3) / 6.0;
                 xj += ht;
             }
             err = (Math.abs(ym - yj));
@@ -70,7 +74,7 @@ var RangekuttaMethod = (function () {
     };
     RangekuttaMethod.RK4 = function (x0, x1, y0, eps, fx) {
         var ht, xj, yj, ym, ymdx, err, m, j, k1, k2, k3, k4;
-        m = (x1 - x0) + 1;
+        m = (x1 - x0) + 1.0;
         ym = Number.MAX_VALUE;
         ymdx = ym;
         do {
@@ -82,12 +86,12 @@ var RangekuttaMethod = (function () {
                 k2 = fx(xj + 0.5 * ht, yj + 0.5 * k1);
                 k3 = fx(xj + 0.5 * ht, yj + 0.5 * k2);
                 k4 = fx(xj + ht, yj + k3);
-                yj = yj + ht / 6 * (k1 + 2 * k2 + 2 * k3 + k4);
+                yj = yj + ht / 6.0 * (k1 + 2.0 * k2 + 2.0 * k3 + k4);
                 xj += ht;
             }
             err = (Math.abs(ym - yj));
             ym = yj;
-            m *= 10;
+            m *= 10.0;
         } while (err > eps);
         x1 = ym;
         return ym;

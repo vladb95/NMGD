@@ -8,7 +8,7 @@ export class RangekuttaMethod {
     eps: number = 10E-7;
     N: number;
 
-    constructor(public x0: number, public xn: number,public y0: number, public func: Function, public fx: Function) {
+    constructor(public x0: number, public xn: number, public y0: number, public func: Function, public fx: Function) {
         this.N = 100;
         let h: number = (xn - x0) / this.N;
         this.X = <number[]>[];
@@ -16,6 +16,10 @@ export class RangekuttaMethod {
         this.YRK3 = <number[]>[];
         this.YRK4 = <number[]>[];
         this.Y = <number[]>[];
+        this.Y[0] = y0;
+        this.YRK3[0] = y0;
+        this.YRK4[0] = y0;
+        this.Ye[0] = y0;
 
         for (let i: number = 0; i < this.N; i++) {
             this.X[i] = x0 + h * i;
@@ -30,13 +34,13 @@ export class RangekuttaMethod {
             this.YRK3[i + 1] = RangekuttaMethod.RK3(this.X[i], this.X[i + 1], this.YRK3[i], this.eps, this.fx);
             this.YRK4[i + 1] = RangekuttaMethod.RK4(this.X[i], this.X[i + 1], this.YRK4[i], this.eps, this.fx);
         }
-        
+
     }
 
     public static Eylera(x0: number, x1: number, y0: number, eps: number, fx: Function) {
         let hx, xj, yj, ym, err,
             j, m;
-        m = <number>(x1 - x0) + 1; ym = Number.MAX_VALUE;
+        m = <number>(x1 - x0) + 1.0; ym = Number.MAX_VALUE;
         do {
             hx = (x1 - x0) / m; yj = y0; xj = x0;
             for (j = 0; j < m; j++) {
@@ -53,15 +57,15 @@ export class RangekuttaMethod {
             m, j,
             k1, k2, k3;
 
-        m = <number>(x1 - x0) + 1; ym = Number.MAX_VALUE; ymdx = ym;
+        m = <number>(x1 - x0) + 1.0; ym = Number.MAX_VALUE; ymdx = ym;
         do {
             ht = (x1 - x0) / m;
             xj = x0; yj = y0;
             for (j = 0; j < m; j++) {
                 k1 = fx(xj, yj);
                 k2 = fx(xj + 0.5 * ht, yj + 0.5 * k1);
-                k3 = fx(xj + ht, yj + 2 * k2 - k1);
-                yj = yj + ht * (k1 + 4 * k2 + k3) / 6;
+                k3 = fx(xj + ht, yj + 2.0 * k2 - k1);
+                yj = yj + ht * (k1 + 4.0 * k2 + k3) / 6.0;
                 xj += ht;
             }
             err = (Math.abs(ym - yj));
@@ -76,7 +80,7 @@ export class RangekuttaMethod {
         let ht, xj, yj, ym, ymdx, err,
             m, j, k1, k2, k3, k4;
 
-        m = <number>(x1 - x0) + 1; ym = Number.MAX_VALUE; ymdx = ym;
+        m = <number>(x1 - x0) + 1.0; ym = Number.MAX_VALUE; ymdx = ym;
         do {
             ht = (x1 - x0) / m;
             xj = x0; yj = y0;
@@ -85,11 +89,11 @@ export class RangekuttaMethod {
                 k2 = fx(xj + 0.5 * ht, yj + 0.5 * k1);
                 k3 = fx(xj + 0.5 * ht, yj + 0.5 * k2);
                 k4 = fx(xj + ht, yj + k3);
-                yj = yj + ht / 6 * (k1 + 2 * k2 + 2 * k3 + k4);
+                yj = yj + ht / 6.0 * (k1 + 2.0 * k2 + 2.0 * k3 + k4);
                 xj += ht;
             }
             err = (Math.abs(ym - yj));
-            ym = yj; m *= 10;
+            ym = yj; m *= 10.0;
         } while (err > eps);
         x1 = ym;
         return ym;
